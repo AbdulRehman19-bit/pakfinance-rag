@@ -1,0 +1,39 @@
+# --- secrets ---
+.env
+*.env
+!.env.example
+
+# --- python ---
+__pycache__/
+*.pyc
+*.pyo
+.venv/
+venv/
+*.egg-info/
+.pytest_cache/
+.mypy_cache/
+
+# --- data & indexes (large / regenerable) ---
+backend/data/raw/*
+!backend/data/raw/.gitkeep
+backend/data/processed/*
+!backend/data/processed/.gitkeep
+backend/indexes/*
+!backend/indexes/.gitkeep
+*.chroma/
+chroma_db/
+*.pkl
+
+# --- node / react ---
+node_modules/
+frontend/build/
+frontend/dist/
+.netlify/
+
+# --- os / editor ---
+.DS_Store
+.vscode/
+.idea/
+
+# --- logs ---
+*.log
