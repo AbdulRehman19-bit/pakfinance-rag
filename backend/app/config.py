@@ -13,6 +13,10 @@ class Settings(BaseSettings):
     app_env: str = "development"
     cors_origins: str = "http://localhost:3000"
 
+    # --- Supabase ---
+    supabase_url: str = ""
+    supabase_key: str = ""
+
     # --- LLM ---
     gemini_api_key: str = ""
     gemini_model: str = "gemini-1.5-flash"
