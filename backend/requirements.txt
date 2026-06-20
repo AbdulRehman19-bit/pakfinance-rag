@@ -23,7 +23,7 @@ chromadb==0.5.13
 cohere==5.10.0
 
 # LLM
-google-generativeai==0.8.3
+google-genai==2.9.0
 
 # Tracing
 langsmith==0.1.137

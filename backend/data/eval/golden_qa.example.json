@@ -1,0 +1,22 @@
+[
+  {
+    "question": "REPLACE ME: e.g. What is the current SBP policy rate?",
+    "ground_truth": "REPLACE ME: copy the exact correct answer from a real scraped SBP document"
+  },
+  {
+    "question": "REPLACE ME: e.g. What is the withholding tax rate under a specific SRO you scraped?",
+    "ground_truth": "REPLACE ME"
+  },
+  {
+    "question": "REPLACE ME: e.g. What capital adequacy requirement does a specific BPRD circular set?",
+    "ground_truth": "REPLACE ME"
+  },
+  {
+    "question": "REPLACE ME: e.g. What are the PSX listing requirements for a new company, per the rule book?",
+    "ground_truth": "REPLACE ME"
+  },
+  {
+    "question": "REPLACE ME: e.g. What does a specific SBP FE circular say about remittance limits?",
+    "ground_truth": "REPLACE ME"
+  }
+]

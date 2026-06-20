@@ -19,7 +19,7 @@ class Settings(BaseSettings):
 
     # --- LLM ---
     gemini_api_key: str = ""
-    gemini_model: str = "gemini-1.5-flash"
+    gemini_model: str = "gemini-2.5-flash-lite"
 
 
     # --- Reranker ---
