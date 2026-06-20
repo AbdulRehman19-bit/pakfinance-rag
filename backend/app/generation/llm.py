@@ -5,6 +5,7 @@ import google.generativeai as genai
 
 from app.config import get_settings
 from app.generation.prompts import SYSTEM_PROMPT, build_user_prompt
+from app.tracing import traceable
 
 _configured = False
 
@@ -19,6 +20,7 @@ def _ensure_configured() -> None:
         _configured = True
 
 
+@traceable(name="generate_answer")
 def generate_answer(query: str, chunks: list[dict]) -> str:
     """Generate a grounded answer from the query and reranked chunks. Returns
     a plain "no context" message if nothing was retrieved — never lets the

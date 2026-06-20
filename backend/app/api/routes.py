@@ -12,6 +12,7 @@ from app.models.schemas import (
 )
 from app.retrieval.retriever import retrieve
 from app.generation.llm import generate_answer
+from app.tracing import traceable
 
 router = APIRouter()
 
@@ -23,6 +24,7 @@ def health() -> HealthResponse:
 
 
 @router.post("/query", response_model=QueryResponse)
+@traceable(name="query_pipeline")
 def query(request: QueryRequest) -> QueryResponse:
     start = time.perf_counter()
 

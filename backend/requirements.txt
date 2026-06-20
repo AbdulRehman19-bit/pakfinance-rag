@@ -18,7 +18,6 @@ rank-bm25==0.2.2
 
 # Dense retrieval
 chromadb==0.5.13
-openai==1.51.2
 
 # Reranking
 cohere==5.10.0

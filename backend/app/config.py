@@ -21,9 +21,6 @@ class Settings(BaseSettings):
     gemini_api_key: str = ""
     gemini_model: str = "gemini-1.5-flash"
 
-    # --- Embeddings ---
-    openai_api_key: str = ""
-    embedding_model: str = "text-embedding-3-small"
 
     # --- Reranker ---
     cohere_api_key: str = ""

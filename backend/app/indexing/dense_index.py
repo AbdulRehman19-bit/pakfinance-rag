@@ -1,5 +1,11 @@
 """
-Dense index — ChromaDB collections backed by OpenAI embeddings.
+Dense index — ChromaDB collections backed by a local embedding model.
+
+Uses Chroma's built-in default embedding function (all-MiniLM-L6-v2 via
+ONNX runtime) — no API key, no torch/sentence-transformers dependency, model
+downloads automatically (~80MB) on first use and is cached afterward. This
+keeps the whole pipeline free, matching the Netlify + Hugging Face Spaces
+free-tier deploy.
 
 One collection per category (matching the BM25 split), plus an "all"
 collection as a fallback for low-confidence query classification.
@@ -9,8 +15,6 @@ from __future__ import annotations
 import chromadb
 from chromadb.utils import embedding_functions
 
-from app.config import get_settings
-
 EMBED_BATCH_SIZE = 100
 
 
@@ -19,11 +23,8 @@ def get_chroma_client(persist_dir: str):
 
 
 def get_embedding_function():
-    settings = get_settings()
-    return embedding_functions.OpenAIEmbeddingFunction(
-        api_key=settings.openai_api_key,
-        model_name=settings.embedding_model,
-    )
+    """Local, free, no API key — all-MiniLM-L6-v2 via Chroma's bundled ONNX runtime."""
+    return embedding_functions.DefaultEmbeddingFunction()
 
 
 def build_chroma_collection(client, collection_name: str, chunk_records: list[dict]) -> None:

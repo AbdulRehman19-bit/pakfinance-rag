@@ -17,6 +17,7 @@ from app.indexing.sparse_index import BM25Index
 from app.indexing.dense_index import get_chroma_client, get_embedding_function
 from app.retrieval.fusion import reciprocal_rank_fusion
 from app.retrieval.reranker import rerank
+from app.tracing import traceable
 
 settings = get_settings()
 BM25_DIR = Path(settings.bm25_index_path).parent
@@ -46,6 +47,7 @@ def _dense_search(category: str, query: str, top_k: int) -> list[str]:
     return results["ids"][0] if results["ids"] else []
 
 
+@traceable(name="hybrid_retrieve")
 def retrieve(query: str, top_k: int = 5) -> list[dict]:
     """Full hybrid pipeline for one query. Returns final reranked chunk
     records, each carrying bm25_rank/dense_rank/rrf_score/rerank_score."""

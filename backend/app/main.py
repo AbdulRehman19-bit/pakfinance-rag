@@ -4,8 +4,10 @@ from fastapi.middleware.cors import CORSMiddleware
 
 from app.config import get_settings
 from app.api.routes import router
+from app.tracing import configure_tracing
 
 settings = get_settings()
+configure_tracing()
 
 app = FastAPI(
     title="PakFinance RAG API",
