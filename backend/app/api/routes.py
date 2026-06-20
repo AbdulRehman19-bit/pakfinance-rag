@@ -1,5 +1,4 @@
-"""API routes. /query is wired to the real retrieval+generation pipeline in a later commit —
-for now it returns a stub so the frontend has a stable contract to build against."""
+"""API routes — /query now runs the real hybrid retrieval + generation pipeline."""
 import time
 from fastapi import APIRouter
 
@@ -7,9 +6,12 @@ from app.config import get_settings
 from app.models.schemas import (
     QueryRequest,
     QueryResponse,
+    RetrievedChunk,
     FeedbackRequest,
     HealthResponse,
 )
+from app.retrieval.retriever import retrieve
+from app.generation.llm import generate_answer
 
 router = APIRouter()
 
@@ -23,17 +25,35 @@ def health() -> HealthResponse:
 @router.post("/query", response_model=QueryResponse)
 def query(request: QueryRequest) -> QueryResponse:
     start = time.perf_counter()
-    # TODO: replace with real hybrid retrieval + rerank + generation pipeline
+
+    chunks = retrieve(request.query, top_k=request.top_k)
+    answer = generate_answer(request.query, chunks)
+
+    sources = [
+        RetrievedChunk(
+            chunk_id=c["chunk_id"],
+            text=c["text"],
+            source=c["source"],
+            document_title=c["document_title"],
+            page_number=c.get("page_number"),
+            bm25_rank=c.get("bm25_rank"),
+            dense_rank=c.get("dense_rank"),
+            rrf_score=c.get("rrf_score"),
+            rerank_score=c.get("rerank_score"),
+        )
+        for c in chunks
+    ]
+
     elapsed_ms = (time.perf_counter() - start) * 1000
     return QueryResponse(
         query=request.query,
-        answer="Retrieval pipeline not wired up yet — coming in the next commits.",
-        sources=[],
+        answer=answer,
+        sources=sources,
         latency_ms=round(elapsed_ms, 2),
     )
 
 
 @router.post("/feedback")
 def feedback(request: FeedbackRequest) -> dict[str, str]:
-    # TODO: persist feedback (e.g. to a simple log or DB) for later eval
+    # TODO: persist feedback to Supabase for later eval
     return {"status": "received"}
